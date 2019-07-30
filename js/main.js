@@ -1,8 +1,10 @@
 /*----- constants -----*/
+
+
 const MARKERS = {
-  '0': '',
-  '1': 'O',
-  '-1': 'X'
+  'null': 'white',
+  '1': 'blue',
+  '-1': 'red',
 }
 
 const winningArr = [
@@ -21,11 +23,7 @@ let board, turn, winner;
 
 /*----- cached element references -----*/
 
-
-
-
-
-
+let squares = document.querySelectorAll('div');
 
 /*----- event listeners -----*/ 
 document.querySelector('section.board')
@@ -39,40 +37,35 @@ document.querySelector('button')
 
 
 
-
-
 /*----- functions -----*/
 init();
 
 function init() {
-    board = [0,1,2,3,4,5,6,7,8];
+    board = [null,null,null,null,null,null,null,null,null,] //[0,1,2,3,4,5,6,7,8];
     turn = 1;
     winner = null;  // 1, -1, null (no winner), 'T' (tie)
-    board.forEach(function(square) {
-      let div = document.getElementById(square);
-      div.innerHTML = ''
-      });
-
+    render();
   };
 
 
   
 
 function render () {
-  
+
+  board.forEach(function(sqr, idx) {
+  squares[idx].style.backgroundColor = MARKERS[sqr];
+  });
+
   for (let i = 0; i<winningArr.length; i++){
     let sum = 0;
     winningArr[i].forEach(function(each){
       sum += board[each]
-      console.log('b' + board[each])
-      console.log('w '+ winningArr[i]+ sum)
-      if (sum  === -3){
-        console.log('Player X won!')
-      } else if (sum  === 3){
-        console.log('Player O won!')
-      }
-      console.log(sum)
     })
+    if (sum  === -3){
+      alert('Player X won!')
+    } else if (sum  === 3){
+      alert('Player O won!')
+    } 
   }
 
 
@@ -82,22 +75,19 @@ function render () {
 function handleClick(evt) {
   //get idx of column's click
   let idx = parseInt(evt.target.id);
-  console.log('this is idx: '+idx)
-
-
   if (isNaN(idx) || winner) return;
-  if (document.getElementById(idx).innerHTML === 'O' || document.getElementById(idx).innerHTML=== 'X') {
+  if (document.getElementById(idx).style.backgroundColor === MARKERS['1'] || document.getElementById(idx).style.backgroundColor === MARKERS['-1']) {
     console.log('already used');
     return;
   } 
-  document.getElementById(idx).innerHTML = MARKERS[turn]
+  document.getElementById(idx).style.backgroundColor = MARKERS[turn]
   board[idx] = turn;
  
-  console.log('turn: '+ turn + 'idx' + idx)
-  
-
   turn *= -1;
-  render();
+  render(idx);
 
 }
 
+function getWinner() {
+
+}
