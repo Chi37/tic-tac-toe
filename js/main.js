@@ -55,18 +55,9 @@ function render () {
   board.forEach(function(sqr, idx) {
   squares[idx].style.backgroundColor = MARKERS[sqr];
   });
+  
+  winner = getWinner();
 
-  for (let i = 0; i<winningArr.length; i++){
-    let sum = 0;
-    winningArr[i].forEach(function(each){
-      sum += board[each]
-    })
-    if (sum  === -3){
-      alert('Player X won!')
-    } else if (sum  === 3){
-      alert('Player O won!')
-    } 
-  }
 
 
 
@@ -89,5 +80,17 @@ function handleClick(evt) {
 }
 
 function getWinner() {
-
-}
+  for (let i = 0; i<winningArr.length; i++){
+    let sum = 0;
+    winningArr[i].forEach(function(each){
+      sum += board[each]
+    })
+    if (sum  === -3){
+      return alert('Player X won!')
+    } else if (sum  === 3){
+      return alert('Player O won!')
+    } else if (!board.includes(null)) {
+      return alert("Cat's game!");
+    }
+    }
+  }
